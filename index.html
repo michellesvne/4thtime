@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thread Together</title>
   <style>
-    /* Global Styles & Background */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -13,249 +12,268 @@
     }
     html {
       scroll-behavior: smooth;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: Arial, sans-serif;
     }
     body {
-      /* Uses your background image if present, otherwise uses a denim blue */
-      background: #4a688f url('background.jpg') repeat center center;
+      background: #4a688f url('background.jpg') repeat center top;
       background-size: cover;
       background-attachment: fixed;
       color: #333;
       overflow-x: hidden;
     }
 
-    /* Universal Interactive Hover Effect */
+    /* Interactive Hover Effect */
     .hover-scale {
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+      transition: transform 0.25s ease, filter 0.25s ease;
       cursor: pointer;
     }
     .hover-scale:hover {
-      transform: scale(1.05);
-      filter: brightness(1.05);
+      transform: scale(1.04);
+      filter: brightness(1.03);
     }
 
-    /* Sticky Task Bar (Salmon/Magenta Pink) */
+    /* Sticky Task Bar */
     .navbar {
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(255, 143, 163, 0.95); /* Salmon / Beach Pink */
-      backdrop-filter: blur(8px);
+      background: #ff8fa3;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 5%;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      padding: 12px 6%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
     .nav-brand {
       display: flex;
       align-items: center;
     }
     .nav-logo {
-      height: 85px; /* Made significantly larger */
+      height: 75px;
       width: auto;
+      display: block;
     }
     .nav-links {
       display: flex;
       list-style: none;
-      gap: 20px;
+      gap: 24px;
     }
     .nav-links a {
       text-decoration: none;
-      color: #ffffff; /* White default */
-      font-weight: 700;
-      font-size: 1.1rem;
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 1.15rem;
       padding: 8px 16px;
       border-radius: 20px;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
     }
     .nav-links a:hover {
-      color: #0b1d42; /* Darker Blue on hover */
-      background: rgba(255, 255, 255, 0.3);
-      transform: translateY(-2px);
+      color: #0b1d42;
+      background: rgba(255, 255, 255, 0.35);
     }
 
-    /* Main Container Structure */
+    /* Outer Wrapper */
     .main-wrapper {
-      max-width: 1000px;
+      max-width: 850px;
       margin: 0 auto;
-      padding: 40px 20px 80px 20px;
+      padding: 50px 20px 80px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 70px; /* Spaced out sections properly */
+      gap: 55px;
     }
 
-    /* Section Containers */
     .section-card {
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      position: relative;
     }
 
-    /* Text Box Backgrounds (The Light Blue/Periwinkle Bubbles) */
-    .content-block {
-      background: #b1c2ef; /* Matches the specific light blue/purple from the design */
-      border-radius: 40px;
-      padding: 35px 45px;
-      width: 90%;
-      max-width: 850px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-      margin-top: 20px;
+    /* Rounded Background Box for Text PNGs */
+    .text-card-bg {
+      background: #b9cdfb;
+      border-radius: 28px;
+      padding: 28px 32px;
+      width: 100%;
+      max-width: 720px;
+      margin-top: 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      position: relative;
     }
 
-    /* Image Sizing Classes */
-    .hero-title-img { max-width: 85%; height: auto; margin-bottom: 10px; }
-    .title-img { max-width: 75%; height: auto; }
-    .subtitle-img { max-width: 55%; height: auto; margin-top: 15px; }
-    .text-box-img { width: 100%; height: auto; } /* Text layered ON TOP of the blue content-block */
-    
-    /* Hero Section Decorations */
-    .hero-decorations {
-      position: relative;
+    /* Standardized Title & Subtitle Heights */
+    .title-img {
+      max-width: 480px;
+      width: 85%;
+      height: auto;
+      display: block;
+    }
+    .subtitle-img {
+      max-width: 380px;
+      width: 75%;
+      height: auto;
+      margin-top: 12px;
+      display: block;
+    }
+    .text-png {
       width: 100%;
-      height: 100px;
+      max-width: 650px;
+      height: auto;
+      display: block;
+    }
+
+    /* Hero Section */
+    .hero-title-img {
+      max-width: 620px;
+      width: 90%;
+      height: auto;
+    }
+    .hero-decorations {
       display: flex;
       justify-content: center;
-      gap: 30px;
+      align-items: center;
+      gap: 20px;
+      margin-top: 18px;
     }
     .hero-decorations img {
-      max-height: 80px;
+      height: 60px;
       width: auto;
     }
-    
     .scroll-down-btn {
-      display: inline-flex;
+      display: flex;
       flex-direction: column;
       align-items: center;
       text-decoration: none;
-      margin-top: 40px;
+      margin-top: 35px;
     }
-    .scroll-down-text { max-width: 180px; }
-    .scroll-down-arrow { max-width: 50px; margin-top: 10px; }
+    .scroll-down-text { max-width: 160px; height: auto; }
+    .scroll-down-arrow { max-width: 38px; margin-top: 8px; height: auto; }
 
     /* About Section */
-    .about-grid {
+    .about-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    .about-content-grid {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 40px;
-      width: 90%;
-      max-width: 850px;
-      margin-top: 20px;
+      justify-content: center;
+      gap: 28px;
+      width: 100%;
+      max-width: 780px;
+      margin-top: 18px;
     }
-    .about-left-box {
-      background: #b1c2ef;
-      border-radius: 40px;
-      padding: 30px;
-      flex: 1.5;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    }
-    .about-right {
+    .about-text-bg {
+      background: #b9cdfb;
+      border-radius: 28px;
+      padding: 26px;
       flex: 1;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
     }
-    .founder-img {
-      width: 100%;
-      max-width: 280px;
-      border-radius: 100px; /* Gives the rounded oval look from the design */
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    .founder-photo {
+      width: 240px;
+      height: auto;
+      border-radius: 24px;
+      flex-shrink: 0;
     }
 
-    /* Scrapbook Photo Collages (Overlapping polaroid effect) */
-    .scrapbook-grid {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 30px;
+    /* Clean Photo Grids (No polaroid frames) */
+    .photo-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
       width: 100%;
-      flex-wrap: wrap;
+      max-width: 720px;
+      margin-top: 20px;
     }
-    .scrapbook-photo {
-      max-width: 280px;
-      width: 45%;
-      border: 8px solid white;
-      border-radius: 4px;
-      box-shadow: 2px 5px 15px rgba(0,0,0,0.3);
-      margin: -15px; /* Negative margin makes them overlap */
-      transition: all 0.3s ease;
-      z-index: 1;
+    .photo-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      width: 100%;
+      max-width: 720px;
+      margin-top: 20px;
     }
-    /* Rotate alternating photos to look like a scrapbook */
-    .scrapbook-photo:nth-child(1) { transform: rotate(-4deg); z-index: 2; }
-    .scrapbook-photo:nth-child(2) { transform: rotate(3deg); z-index: 3; }
-    .scrapbook-photo:nth-child(3) { transform: rotate(-2deg); z-index: 4; }
-    .scrapbook-photo:nth-child(4) { transform: rotate(5deg); z-index: 5; }
-    
-    .scrapbook-photo:hover {
-      transform: scale(1.1) rotate(0deg);
-      z-index: 10;
+    .photo-grid-3 img, .photo-grid-4 img {
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+      display: block;
+    }
+
+    /* Members Count Box */
+    .member-box-img {
+      max-width: 460px;
+      width: 85%;
+      height: auto;
+      margin-top: 18px;
+      display: block;
     }
 
     /* Socials Section */
-    .socials-container {
+    .socials-grid {
       display: flex;
       justify-content: center;
-      gap: 60px;
-      margin-top: 40px;
+      gap: 50px;
+      margin-top: 28px;
       width: 100%;
     }
-    .social-item {
+    .social-card {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-decoration: none;
     }
-    .social-logo {
-      width: 110px;
-      height: 110px;
-      margin-bottom: 15px;
+    .social-icon {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 12px;
     }
     .social-subtext {
-      max-width: 250px;
-      margin-top: 8px;
+      max-width: 240px;
+      height: auto;
+      margin-top: 6px;
     }
 
-    /* Sticky Footer */
+    /* Footer Bar */
     .footer {
       width: 100%;
-      background: rgba(255, 143, 163, 0.95);
-      padding: 15px 5%;
+      background: #ff8fa3;
+      padding: 16px 6%;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
     .footer-logo {
-      height: 85px; /* Larger logo on bottom */
+      height: 75px;
       width: auto;
     }
     .back-to-top-btn {
-      height: 60px;
+      height: 50px;
       width: auto;
     }
 
-    /* Mobile Adjustments */
-    @media (max-width: 768px) {
-      .about-grid { flex-direction: column; }
-      .scrapbook-photo { margin: 10px; transform: rotate(0deg) !important; width: 90%; }
-      .socials-container { flex-direction: column; gap: 40px; }
-      .nav-links { gap: 10px; }
-      .nav-links a { font-size: 0.9rem; padding: 6px 10px; }
-      .nav-logo, .footer-logo { height: 60px; }
+    /* Mobile Responsiveness */
+    @media (max-width: 728px) {
+      .navbar { flex-direction: column; gap: 10px; }
+      .nav-logo, .footer-logo { height: 55px; }
+      .about-content-grid { flex-direction: column; }
+      .founder-photo { width: 80%; max-width: 260px; }
+      .photo-grid-3, .photo-grid-4 { grid-template-columns: repeat(1, 1fr); }
+      .socials-grid { flex-direction: column; gap: 35px; }
     }
   </style>
 </head>
 <body id="top">
 
-  <!-- Task Bar / Navigation -->
+  <!-- Sticky Task Bar -->
   <nav class="navbar">
     <div class="nav-brand">
       <a href="#top">
@@ -277,26 +295,25 @@
       <img src="thread together name (homepage).jpg" alt="Thread Together" class="hero-title-img hover-scale">
       <div class="hero-decorations">
         <img src="buttons.jpg" alt="Buttons" class="hover-scale">
-        <img src="double pink star.png" alt="Pink Stars" class="hover-scale">
+        <img src="double pink star.png" alt="Pink Star" class="hover-scale">
         <img src="glitchy star (pink & blue).jpg" alt="Glitch Star" class="hover-scale">
       </div>
       
-      <!-- Scroll Down -->
       <a href="#mission" class="scroll-down-btn hover-scale">
         <img src="scrol down text.png" alt="Scroll Down" class="scroll-down-text">
-        <img src="arrow.png" alt="Arrow Down" class="scroll-down-arrow">
+        <img src="arrow.png" alt="Arrow" class="scroll-down-arrow">
       </a>
     </section>
 
-    <!-- Mission Section -->
+    <!-- Our Mission Section -->
     <section id="mission" class="section-card">
       <img src="our mission title.png" alt="Our Mission" class="title-img hover-scale">
-      <div class="content-block">
-        <img src="thread together desc text.png" alt="Description" class="text-box-img hover-scale">
-        <div style="margin-top: 25px; display: flex; gap: 20px; justify-content: center;">
-          <img src="sun.png" alt="Sun" style="height: 60px;" class="hover-scale">
-          <img src="heart needle.png" alt="Heart Needle" style="height: 60px;" class="hover-scale">
-          <img src="arrow 2.png" alt="Arrow" style="height: 60px;" class="hover-scale">
+      <div class="text-card-bg">
+        <img src="thread together desc text.png" alt="Mission Description" class="text-png hover-scale">
+        <div style="display: flex; gap: 20px; margin-top: 20px; align-items: center; justify-content: center;">
+          <img src="sun.png" alt="Sun" style="height: 50px;" class="hover-scale">
+          <img src="heart needle.png" alt="Heart Needle" style="height: 50px;" class="hover-scale">
+          <img src="arrow 2.png" alt="Arrow" style="height: 50px;" class="hover-scale">
         </div>
       </div>
     </section>
@@ -305,60 +322,58 @@
     <section class="section-card">
       <img src="hands on workshop title.png" alt="Community Impact" class="title-img hover-scale">
       <img src="hands on workshop subtitle.png" alt="Hands-On Workshops" class="subtitle-img hover-scale">
-      <div class="content-block">
-        <img src="hands on workshop text.png" alt="Workshop Details" class="text-box-img hover-scale">
+      <div class="text-card-bg">
+        <img src="hands on workshop text.png" alt="Hands On Text" class="text-png hover-scale">
       </div>
     </section>
 
-    <!-- Interested Details -->
+    <!-- Interested in details & Members -->
     <section class="section-card">
-      <div class="content-block" style="background: transparent; box-shadow: none; padding: 0;">
-        <img src="interested in more details title.png" alt="Interested in More Details?" class="title-img hover-scale">
-        <div class="content-block" style="margin-top: 20px;">
-          <img src="these efforts text (number of members text).png" alt="Efforts text" class="text-box-img hover-scale">
-          <img src="current members.png" alt="Current Members" class="subtitle-img hover-scale" style="margin-top: 20px;">
-        </div>
+      <img src="interested in more details title.png" alt="Interested in More Details?" class="title-img hover-scale">
+      <div class="text-card-bg">
+        <img src="these efforts text (number of members text).png" alt="Efforts Text" class="text-png hover-scale">
+        <img src="current members.png" alt="Current Members" class="member-box-img hover-scale">
       </div>
     </section>
 
     <!-- About Me Section -->
     <section id="about" class="section-card">
-      <img src="about me title.png" alt="About Me" class="title-img hover-scale">
-      <div class="about-grid">
-        <div class="about-left-box">
-          <img src="founder text.png" alt="Founder Bio" class="text-box-img hover-scale">
-          <div style="margin-top: 20px; display: flex; gap: 15px;">
-            <img src="magenta star.png" alt="Magenta Star" style="height: 40px;" class="hover-scale">
-            <img src="blue star.png" alt="Blue Star" style="height: 40px;" class="hover-scale">
-            <img src="thread.png" alt="Thread" style="height: 40px;" class="hover-scale">
+      <div class="about-container">
+        <!-- About Me Title directly above Founder picture & text -->
+        <img src="about me title.png" alt="About Me" class="title-img hover-scale">
+        <div class="about-content-grid">
+          <div class="about-text-bg">
+            <img src="founder text.png" alt="Founder Bio Text" class="text-png hover-scale">
+            <div style="display: flex; gap: 16px; margin-top: 18px; align-items: center;">
+              <img src="magenta star.png" alt="Magenta Star" style="height: 35px;" class="hover-scale">
+              <img src="blue star.png" alt="Blue Star" style="height: 35px;" class="hover-scale">
+              <img src="thread.png" alt="Thread" style="height: 35px;" class="hover-scale">
+            </div>
           </div>
-        </div>
-        <div class="about-right">
-          <!-- Make sure this file name is exactly matching what you have on your computer -->
-          <img src="foudner image.jpg" alt="Founder Photo" class="founder-img hover-scale">
+          <img src="foudner image.jpg" alt="Founder Photo" class="founder-photo hover-scale">
         </div>
       </div>
     </section>
 
-    <!-- Workshops Title -->
+    <!-- Workshops Section Title -->
     <section id="workshops" class="section-card">
       <div style="position: relative; display: inline-block;">
         <img src="workshops title.png" alt="Workshops" class="title-img hover-scale">
-        <img src="mouse.png" alt="Cursor" class="hover-scale" style="position: absolute; right: -40px; bottom: 0; width: 60px;">
+        <img src="mouse.png" alt="Cursor" class="hover-scale" style="position: absolute; right: -30px; bottom: 0; width: 38px; height: auto;">
       </div>
     </section>
 
     <!-- Workshop 1: Randall Public School -->
     <section class="section-card">
       <img src="first stitches title.png" alt="First Stitches" class="subtitle-img hover-scale">
-      <img src="randall publci school title.png" alt="Randall Public School" class="title-img hover-scale" style="margin-top: 10px;">
-      <div class="content-block">
-        <img src="randall workshop text.png" alt="Randall Workshop Details" class="text-box-img hover-scale">
+      <img src="randall publci school title.png" alt="Randall Public School" class="title-img hover-scale" style="margin-top: 6px;">
+      <div class="text-card-bg">
+        <img src="randall workshop text.png" alt="Randall Workshop Details" class="text-png hover-scale">
       </div>
-      <div class="scrapbook-grid">
-        <img src="randall workshop photo 1.jpg" alt="Randall 1" class="scrapbook-photo">
-        <img src="randall workshop photo 2.jpg" alt="Randall 2" class="scrapbook-photo">
-        <img src="randall workshop photo 3.jpg" alt="Randall 3" class="scrapbook-photo">
+      <div class="photo-grid-3">
+        <img src="randall workshop photo 1.jpg" alt="Randall Photo 1" class="hover-scale">
+        <img src="randall workshop photo 2.jpg" alt="Randall Photo 2" class="hover-scale">
+        <img src="randall workshop photo 3.jpg" alt="Randall Photo 3" class="hover-scale">
       </div>
     </section>
 
@@ -366,13 +381,13 @@
     <section class="section-card">
       <img src="stitch it up title.png" alt="Stitch It Up!" class="title-img hover-scale">
       <img src="stitch it up workshop subtitle (november 2025).png" alt="November 2025" class="subtitle-img hover-scale">
-      <div class="content-block">
-        <img src="stitch it up workshop text.png" alt="Stitch Details" class="text-box-img hover-scale">
+      <div class="text-card-bg">
+        <img src="stitch it up workshop text.png" alt="Stitch Details" class="text-png hover-scale">
       </div>
-      <div class="scrapbook-grid">
-        <img src="stitch it up workshop photo 1.jpg" alt="Stitch 1" class="scrapbook-photo">
-        <img src="stitch it up workshop photo 2.jpg" alt="Stitch 2" class="scrapbook-photo">
-        <img src="stitch it up workshop photo 3.jpg" alt="Stitch 3" class="scrapbook-photo">
+      <div class="photo-grid-3">
+        <img src="stitch it up workshop photo 1.jpg" alt="Stitch Photo 1" class="hover-scale">
+        <img src="stitch it up workshop photo 2.jpg" alt="Stitch Photo 2" class="hover-scale">
+        <img src="stitch it up workshop photo 3.jpg" alt="Stitch Photo 3" class="hover-scale">
       </div>
     </section>
 
@@ -380,13 +395,13 @@
     <section class="section-card">
       <img src="tyc wallet making title.png" alt="TYC Wallet Making" class="title-img hover-scale">
       <img src="tyc wallet making date title (december 2025).png" alt="December 2025" class="subtitle-img hover-scale">
-      <div class="content-block">
-        <img src="tyc wallet making text.png" alt="Wallet Details" class="text-box-img hover-scale">
+      <div class="text-card-bg">
+        <img src="tyc wallet making text.png" alt="Wallet Details" class="text-png hover-scale">
       </div>
-      <div class="scrapbook-grid">
-        <img src="tyc wallet making photo 1.jpg" alt="Wallet 1" class="scrapbook-photo">
-        <img src="tyc wallet mkaing photo 2.jpg" alt="Wallet 2" class="scrapbook-photo">
-        <img src="tyc wallet.png" alt="Wallet 3" class="scrapbook-photo">
+      <div class="photo-grid-3">
+        <img src="tyc wallet making photo 1.jpg" alt="Wallet Photo 1" class="hover-scale">
+        <img src="tyc wallet mkaing photo 2.jpg" alt="Wallet Photo 2" class="hover-scale">
+        <img src="tyc wallet.png" alt="Wallet Photo 3" class="hover-scale">
       </div>
     </section>
 
@@ -394,43 +409,43 @@
     <section class="section-card">
       <img src="envision robotics title.png" alt="Envision Robotics" class="title-img hover-scale">
       <img src="envision robotics date (january 2026).png" alt="January 2026" class="subtitle-img hover-scale">
-      <div class="content-block">
-        <img src="envision robotics text.png" alt="Robotics Details" class="text-box-img hover-scale">
+      <div class="text-card-bg">
+        <img src="envision robotics text.png" alt="Robotics Details" class="text-png hover-scale">
       </div>
-      <div class="scrapbook-grid">
-        <img src="envision robotics workshop photo 1.png" alt="Robo 1" class="scrapbook-photo">
-        <img src="envision robotics workshop photo 2.png" alt="Robo 2" class="scrapbook-photo">
-        <img src="envision robotics workshop photo 3.png" alt="Robo 3" class="scrapbook-photo">
-        <img src="envision robotics workshop photo 4.png" alt="Robo 4" class="scrapbook-photo">
+      <div class="photo-grid-4">
+        <img src="envision robotics workshop photo 1.png" alt="Robotics Photo 1" class="hover-scale">
+        <img src="envision robotics workshop photo 2.png" alt="Robotics Photo 2" class="hover-scale">
+        <img src="envision robotics workshop photo 3.png" alt="Robotics Photo 3" class="hover-scale">
+        <img src="envision robotics workshop photo 4.png" alt="Robotics Photo 4" class="hover-scale">
       </div>
     </section>
 
     <!-- More Workshops Banner -->
     <section class="section-card">
-      <div class="content-block" style="padding: 40px;">
-        <img src="more workshops to come title.png" alt="More Workshops!" class="title-img hover-scale">
+      <div class="text-card-bg">
+        <img src="more workshops to come title.png" alt="More Workshops To Come" class="title-img hover-scale">
         <img src="more workshops to come subtitle (all updates on insta).png" alt="Updates on Insta" class="subtitle-img hover-scale">
-        <img src="more workshops to come text.png" alt="More info text" class="text-box-img hover-scale" style="margin-top: 15px;">
+        <img src="more workshops to come text.png" alt="More info text" class="text-png hover-scale" style="margin-top: 14px;">
       </div>
     </section>
 
     <!-- Socials Section -->
     <section id="socials" class="section-card">
-      <img src="socials title.png" alt="Socials" class="title-img hover-scale" style="margin-bottom: 20px;">
-      <img src="see more us title (socials subtitle).png" alt="See More of Us!" class="subtitle-img hover-scale">
-      <img src="contact us text.png" alt="Contact Us" class="subtitle-img hover-scale" style="margin-top: 10px;">
+      <img src="socials title.png" alt="Socials" class="title-img hover-scale">
+      <img src="see more us title (socials subtitle).png" alt="See More Of Us" class="subtitle-img hover-scale">
+      <img src="contact us text.png" alt="Contact Us" class="subtitle-img hover-scale">
       
-      <div class="socials-container">
+      <div class="socials-grid">
         <!-- Instagram Link -->
-        <a href="https://www.instagram.com/threadtogetherr/" target="_blank" class="social-item hover-scale">
-          <img src="instagram logo.png" alt="Instagram" class="social-logo">
+        <a href="https://www.instagram.com/threadtogetherr/" target="_blank" class="social-card hover-scale">
+          <img src="instagram logo.png" alt="Instagram" class="social-icon">
           <img src="instagram username text.png" alt="@threadtogetherr" class="social-subtext">
           <img src="follow us @threadtogether text.png" alt="Follow Us" class="social-subtext">
         </a>
 
         <!-- Email Link -->
-        <a href="mailto:thread.together@gmail.com" class="social-item hover-scale">
-          <img src="email logo.png" alt="Email" class="social-logo">
+        <a href="mailto:thread.together@gmail.com" class="social-card hover-scale">
+          <img src="email logo.png" alt="Email" class="social-icon">
           <img src="email text (thread.together@gmail.com).png" alt="thread.together@gmail.com" class="social-subtext">
           <img src="email text 2 (michellesunny24@gmail.com).png" alt="michellesunny24@gmail.com" class="social-subtext">
         </a>
