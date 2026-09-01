@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thread Together</title>
+  <style>
+    /* Global Styles & Background */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      scroll-behavior: smooth;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      /* Uses your background image if present, otherwise uses a denim blue */
+      background: #4a688f url('background.jpg') repeat center center;
+      background-size: cover;
+      background-attachment: fixed;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* Universal Interactive Hover Effect */
+    .hover-scale {
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+      cursor: pointer;
+    }
+    .hover-scale:hover {
+      transform: scale(1.05);
+      filter: brightness(1.05);
+    }
+
+    /* Sticky Task Bar (Salmon/Magenta Pink) */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 143, 163, 0.95); /* Salmon / Beach Pink */
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 5%;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+    }
+    .nav-logo {
+      height: 85px; /* Made significantly larger */
+      width: auto;
+    }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #ffffff; /* White default */
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+    .nav-links a:hover {
+      color: #0b1d42; /* Darker Blue on hover */
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Main Container Structure */
+    .main-wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px 80px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 70px; /* Spaced out sections properly */
+    }
+
+    /* Section Containers */
+    .section-card {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    /* Text Box Backgrounds (The Light Blue/Periwinkle Bubbles) */
+    .content-block {
+      background: #b1c2ef; /* Matches the specific light blue/purple from the design */
+      border-radius: 40px;
+      padding: 35px 45px;
+      width: 90%;
+      max-width: 850px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Image Sizing Classes */
+    .hero-title-img { max-width: 85%; height: auto; margin-bottom: 10px; }
+    .title-img { max-width: 75%; height: auto; }
+    .subtitle-img { max-width: 55%; height: auto; margin-top: 15px; }
+    .text-box-img { width: 100%; height: auto; } /* Text layered ON TOP of the blue content-block */
+    
+    /* Hero Section Decorations */
+    .hero-decorations {
+      position: relative;
+      width: 100%;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+    .hero-decorations img {
+      max-height: 80px;
+      width: auto;
+    }
+    
+    .scroll-down-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      margin-top: 40px;
+    }
+    .scroll-down-text { max-width: 180px; }
+    .scroll-down-arrow { max-width: 50px; margin-top: 10px; }
+
+    /* About Section */
+    .about-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      width: 90%;
+      max-width: 850px;
+      margin-top: 20px;
+    }
+    .about-left-box {
+      background: #b1c2ef;
+      border-radius: 40px;
+      padding: 30px;
+      flex: 1.5;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+    .about-right {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+    .founder-img {
+      width: 100%;
+      max-width: 280px;
+      border-radius: 100px; /* Gives the rounded oval look from the design */
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    /* Scrapbook Photo Collages (Overlapping polaroid effect) */
+    .scrapbook-grid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+    .scrapbook-photo {
+      max-width: 280px;
+      width: 45%;
+      border: 8px solid white;
+      border-radius: 4px;
+      box-shadow: 2px 5px 15px rgba(0,0,0,0.3);
+      margin: -15px; /* Negative margin makes them overlap */
+      transition: all 0.3s ease;
+      z-index: 1;
+    }
+    /* Rotate alternating photos to look like a scrapbook */
+    .scrapbook-photo:nth-child(1) { transform: rotate(-4deg); z-index: 2; }
+    .scrapbook-photo:nth-child(2) { transform: rotate(3deg); z-index: 3; }
+    .scrapbook-photo:nth-child(3) { transform: rotate(-2deg); z-index: 4; }
+    .scrapbook-photo:nth-child(4) { transform: rotate(5deg); z-index: 5; }
+    
+    .scrapbook-photo:hover {
+      transform: scale(1.1) rotate(0deg);
+      z-index: 10;
+    }
+
+    /* Socials Section */
+    .socials-container {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      margin-top: 40px;
+      width: 100%;
+    }
+    .social-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+    }
+    .social-logo {
+      width: 110px;
+      height: 110px;
+      margin-bottom: 15px;
+    }
+    .social-subtext {
+      max-width: 250px;
+      margin-top: 8px;
+    }
+
+    /* Sticky Footer */
+    .footer {
+      width: 100%;
+      background: rgba(255, 143, 163, 0.95);
+      padding: 15px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-logo {
+      height: 85px; /* Larger logo on bottom */
+      width: auto;
+    }
+    .back-to-top-btn {
+      height: 60px;
+      width: auto;
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 768px) {
+      .about-grid { flex-direction: column; }
+      .scrapbook-photo { margin: 10px; transform: rotate(0deg) !important; width: 90%; }
+      .socials-container { flex-direction: column; gap: 40px; }
+      .nav-links { gap: 10px; }
+      .nav-links a { font-size: 0.9rem; padding: 6px 10px; }
+      .nav-logo, .footer-logo { height: 60px; }
+    }
+  </style>
+</head>
+<body id="top">
+
+  <!-- Task Bar / Navigation -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <a href="#top">
+        <img src="thread together logo.png" alt="Thread Together Logo" class="nav-logo hover-scale">
+      </a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#mission">Mission</a></li>
+      <li><a href="#about">About Me</a></li>
+      <li><a href="#workshops">Workshops</a></li>
+      <li><a href="#socials">Socials</a></li>
+    </ul>
+  </nav>
+
+  <main class="main-wrapper">
+
+    <!-- Hero Section -->
+    <section id="hero" class="section-card">
+      <img src="thread together name (homepage).jpg" alt="Thread Together" class="hero-title-img hover-scale">
+      <div class="hero-decorations">
+        <img src="buttons.jpg" alt="Buttons" class="hover-scale">
+        <img src="double pink star.png" alt="Pink Stars" class="hover-scale">
+        <img src="glitchy star (pink & blue).jpg" alt="Glitch Star" class="hover-scale">
+      </div>
+      
+      <!-- Scroll Down -->
+      <a href="#mission" class="scroll-down-btn hover-scale">
+        <img src="scrol down text.png" alt="Scroll Down" class="scroll-down-text">
+        <img src="arrow.png" alt="Arrow Down" class="scroll-down-arrow">
+      </a>
+    </section>
+
+    <!-- Mission Section -->
+    <section id="mission" class="section-card">
+      <img src="our mission title.png" alt="Our Mission" class="title-img hover-scale">
+      <div class="content-block">
+        <img src="thread together desc text.png" alt="Description" class="text-box-img hover-scale">
+        <div style="margin-top: 25px; display: flex; gap: 20px; justify-content: center;">
+          <img src="sun.png" alt="Sun" style="height: 60px;" class="hover-scale">
+          <img src="heart needle.png" alt="Heart Needle" style="height: 60px;" class="hover-scale">
+          <img src="arrow 2.png" alt="Arrow" style="height: 60px;" class="hover-scale">
+        </div>
+      </div>
+    </section>
+
+    <!-- Community Impact -->
+    <section class="section-card">
+      <img src="hands on workshop title.png" alt="Community Impact" class="title-img hover-scale">
+      <img src="hands on workshop subtitle.png" alt="Hands-On Workshops" class="subtitle-img hover-scale">
+      <div class="content-block">
+        <img src="hands on workshop text.png" alt="Workshop Details" class="text-box-img hover-scale">
+      </div>
+    </section>
+
+    <!-- Interested Details -->
+    <section class="section-card">
+      <div class="content-block" style="background: transparent; box-shadow: none; padding: 0;">
+        <img src="interested in more details title.png" alt="Interested in More Details?" class="title-img hover-scale">
+        <div class="content-block" style="margin-top: 20px;">
+          <img src="these efforts text (number of members text).png" alt="Efforts text" class="text-box-img hover-scale">
+          <img src="current members.png" alt="Current Members" class="subtitle-img hover-scale" style="margin-top: 20px;">
+        </div>
+      </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="section-card">
+      <img src="about me title.png" alt="About Me" class="title-img hover-scale">
+      <div class="about-grid">
+        <div class="about-left-box">
+          <img src="founder text.png" alt="Founder Bio" class="text-box-img hover-scale">
+          <div style="margin-top: 20px; display: flex; gap: 15px;">
+            <img src="magenta star.png" alt="Magenta Star" style="height: 40px;" class="hover-scale">
+            <img src="blue star.png" alt="Blue Star" style="height: 40px;" class="hover-scale">
+            <img src="thread.png" alt="Thread" style="height: 40px;" class="hover-scale">
+          </div>
+        </div>
+        <div class="about-right">
+          <!-- Make sure this file name is exactly matching what you have on your computer -->
+          <img src="foudner image.jpg" alt="Founder Photo" class="founder-img hover-scale">
+        </div>
+      </div>
+    </section>
+
+    <!-- Workshops Title -->
+    <section id="workshops" class="section-card">
+      <div style="position: relative; display: inline-block;">
+        <img src="workshops title.png" alt="Workshops" class="title-img hover-scale">
+        <img src="mouse.png" alt="Cursor" class="hover-scale" style="position: absolute; right: -40px; bottom: 0; width: 60px;">
+      </div>
+    </section>
+
+    <!-- Workshop 1: Randall Public School -->
+    <section class="section-card">
+      <img src="first stitches title.png" alt="First Stitches" class="subtitle-img hover-scale">
+      <img src="randall publci school title.png" alt="Randall Public School" class="title-img hover-scale" style="margin-top: 10px;">
+      <div class="content-block">
+        <img src="randall workshop text.png" alt="Randall Workshop Details" class="text-box-img hover-scale">
+      </div>
+      <div class="scrapbook-grid">
+        <img src="randall workshop photo 1.jpg" alt="Randall 1" class="scrapbook-photo">
+        <img src="randall workshop photo 2.jpg" alt="Randall 2" class="scrapbook-photo">
+        <img src="randall workshop photo 3.jpg" alt="Randall 3" class="scrapbook-photo">
+      </div>
+    </section>
+
+    <!-- Workshop 2: Stitch It Up! -->
+    <section class="section-card">
+      <img src="stitch it up title.png" alt="Stitch It Up!" class="title-img hover-scale">
+      <img src="stitch it up workshop subtitle (november 2025).png" alt="November 2025" class="subtitle-img hover-scale">
+      <div class="content-block">
+        <img src="stitch it up workshop text.png" alt="Stitch Details" class="text-box-img hover-scale">
+      </div>
+      <div class="scrapbook-grid">
+        <img src="stitch it up workshop photo 1.jpg" alt="Stitch 1" class="scrapbook-photo">
+        <img src="stitch it up workshop photo 2.jpg" alt="Stitch 2" class="scrapbook-photo">
+        <img src="stitch it up workshop photo 3.jpg" alt="Stitch 3" class="scrapbook-photo">
+      </div>
+    </section>
+
+    <!-- Workshop 3: TYC Wallet Making -->
+    <section class="section-card">
+      <img src="tyc wallet making title.png" alt="TYC Wallet Making" class="title-img hover-scale">
+      <img src="tyc wallet making date title (december 2025).png" alt="December 2025" class="subtitle-img hover-scale">
+      <div class="content-block">
+        <img src="tyc wallet making text.png" alt="Wallet Details" class="text-box-img hover-scale">
+      </div>
+      <div class="scrapbook-grid">
+        <img src="tyc wallet making photo 1.jpg" alt="Wallet 1" class="scrapbook-photo">
+        <img src="tyc wallet mkaing photo 2.jpg" alt="Wallet 2" class="scrapbook-photo">
+        <img src="tyc wallet.png" alt="Wallet 3" class="scrapbook-photo">
+      </div>
+    </section>
+
+    <!-- Workshop 4: Envision Robotics -->
+    <section class="section-card">
+      <img src="envision robotics title.png" alt="Envision Robotics" class="title-img hover-scale">
+      <img src="envision robotics date (january 2026).png" alt="January 2026" class="subtitle-img hover-scale">
+      <div class="content-block">
+        <img src="envision robotics text.png" alt="Robotics Details" class="text-box-img hover-scale">
+      </div>
+      <div class="scrapbook-grid">
+        <img src="envision robotics workshop photo 1.png" alt="Robo 1" class="scrapbook-photo">
+        <img src="envision robotics workshop photo 2.png" alt="Robo 2" class="scrapbook-photo">
+        <img src="envision robotics workshop photo 3.png" alt="Robo 3" class="scrapbook-photo">
+        <img src="envision robotics workshop photo 4.png" alt="Robo 4" class="scrapbook-photo">
+      </div>
+    </section>
+
+    <!-- More Workshops Banner -->
+    <section class="section-card">
+      <div class="content-block" style="padding: 40px;">
+        <img src="more workshops to come title.png" alt="More Workshops!" class="title-img hover-scale">
+        <img src="more workshops to come subtitle (all updates on insta).png" alt="Updates on Insta" class="subtitle-img hover-scale">
+        <img src="more workshops to come text.png" alt="More info text" class="text-box-img hover-scale" style="margin-top: 15px;">
+      </div>
+    </section>
+
+    <!-- Socials Section -->
+    <section id="socials" class="section-card">
+      <img src="socials title.png" alt="Socials" class="title-img hover-scale" style="margin-bottom: 20px;">
+      <img src="see more us title (socials subtitle).png" alt="See More of Us!" class="subtitle-img hover-scale">
+      <img src="contact us text.png" alt="Contact Us" class="subtitle-img hover-scale" style="margin-top: 10px;">
+      
+      <div class="socials-container">
+        <!-- Instagram Link -->
+        <a href="https://www.instagram.com/threadtogetherr/" target="_blank" class="social-item hover-scale">
+          <img src="instagram logo.png" alt="Instagram" class="social-logo">
+          <img src="instagram username text.png" alt="@threadtogetherr" class="social-subtext">
+          <img src="follow us @threadtogether text.png" alt="Follow Us" class="social-subtext">
+        </a>
+
+        <!-- Email Link -->
+        <a href="mailto:thread.together@gmail.com" class="social-item hover-scale">
+          <img src="email logo.png" alt="Email" class="social-logo">
+          <img src="email text (thread.together@gmail.com).png" alt="thread.together@gmail.com" class="social-subtext">
+          <img src="email text 2 (michellesunny24@gmail.com).png" alt="michellesunny24@gmail.com" class="social-subtext">
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Sticky Footer -->
+  <footer class="footer">
+    <img src="thread together logo.png" alt="Thread Together" class="footer-logo hover-scale">
+    <a href="#top" class="hover-scale">
+      <img src="back to the top.png" alt="Back to Top" class="back-to-top-btn">
+    </a>
+  </footer>
+
+</body>
+</html>
